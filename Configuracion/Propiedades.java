@@ -179,7 +179,7 @@ public class Propiedades {
                             
                     }
                     
-                    System.out.println(renglon+" // "+SERVER+" // "+BD+" // "+USUARIO+" // "+CLAVE+" // "+CREADA+" // "+ARCHIVOBK+" // "+NOMBRECOMERCIO+" //CC "+CORREOCC+" //CCC "+CORREOCCC);
+                    System.out.println(renglon+" // "+SERVER+" // "+BD+" // "+USUARIO+" // "+CLAVE+" // "+CREADA+" // "+ARCHIVOBK+" // "+NOMBRECOMERCIO);
                     // if(tra.guardarRegistro(linea));
       }
                 Date fecha=Numeros.ConvertirStringEnDate(VERIF);

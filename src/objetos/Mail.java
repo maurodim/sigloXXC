@@ -61,8 +61,17 @@ public class Mail {
             mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
             mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getCORREOCIERREDECAJA()));
             mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
-            mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress(Propiedades.getCORREOCC()));
-            mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress(Propiedades.getCORREOCCC()));
+            String cc=Propiedades.getCORREOCC();
+            String ccc=Propiedades.getCORREOCCC();
+            if(cc.equals("")){
+                
+            }else{
+                mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress(Propiedades.getCORREOCC()));
+            }
+            if(ccc.equals("")){
+            }else{
+                mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress(Propiedades.getCORREOCCC()));
+            }
             
             mensaje.setSubject(asunto);
             BodyPart texto=new MimeBodyPart();

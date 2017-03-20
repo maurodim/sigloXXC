@@ -7,6 +7,7 @@
 package Excel;
 
 import Configuracion.Propiedades;
+import Sucursales.Cajas;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
 import java.io.FileNotFoundException;
@@ -37,7 +38,7 @@ public class InformeDiarioStock {
     /*
     AQUI SE GENERA EL INFORME DIARIO DE STOCK POR SUCURSAL
     */
-    public void GenerrarInformeStock() throws SQLException{
+    public void GenerrarInformeStock(Cajas caja) throws SQLException{
       HSSFWorkbook libro=new HSSFWorkbook();
         HSSFSheet hoja=libro.createSheet("Articulos");
         /*
@@ -342,7 +343,48 @@ public class InformeDiarioStock {
             celda8.setCellType(HSSFCell.CELL_TYPE_STRING);
             celda8.setCellValue(rs.getString("observaciones"));
         }
+            a++;
             
+            fila=hoja2.createRow(a);
+            celda=fila.createCell(0);
+            ttx=ttx;
+            celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda.setCellValue("");
+            celda1=fila.createCell(1);
+            ttx=ttx;
+            celda1.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda1.setCellValue("");
+            celda2=fila.createCell(2);
+            celda2.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+            celda2.setCellValue("");
+            celda3=fila.createCell(3);
+            celda3.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda3.setCellValue("");
+            celda4=fila.createCell(4);
+            celda4.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+            celda4.setCellValue(caja.getTotalVentas());
+            
+           
+            celda5=fila.createCell(5);
+            //celda5.setCellFormula(rs.getString("observaciones"));
+            celda5.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda5.setCellValue(" ");
+            //celda5.setCellValue(rs.getDate("fecha"));
+            celda6=fila.createCell(6);
+            celda6.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda6.setCellValue("Total $ en CAJA");
+            celda7=fila.createCell(7);
+            String pagado="PAGADO";
+            //if(rs.getInt("pagado")==0 && rs.getInt("tipoMovimiento")==1)pagado="CTA CTE";
+            celda7.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda7.setCellValue(pagado);
+            
+            celda8=fila.createCell(8);
+            celda8.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+            celda8.setCellValue(0);
+            celda8=fila.createCell(9);
+            celda8.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda8.setCellValue("");
             
             rs.close();
         
