@@ -284,7 +284,7 @@ public class Proveedores implements Personalizable{
     public Object buscarPorNumero(Integer id) {
         Proveedores prov=new Proveedores();
         try {
-            String sql="select * from proveedores where numero="+id+" and INHABILITADO=0";
+            String sql="select * from proveedores where numero="+id;
             Transaccionable tra=new Conecciones();
             ResultSet rr=tra.leerConjuntoDeRegistros(sql);
             while(rr.next()){
@@ -368,23 +368,32 @@ public class Proveedores implements Personalizable{
     @Override
     public ArrayList listar() {
         ArrayList listado=new ArrayList();
-        /*
-         * Enumeration<Articulos> elementos=listadoNom.elements();
-       * while(elementos.hasMoreElements()){
-        *    articulo=(Articulos)elementos.nextElement();
-         */
-            Enumeration<Proveedores> elementos=listadoProv.elements();
-            //System.out.println(" ELEMENTOS PROVEEDORES "+listadoProv.size());
-            while(elementos.hasMoreElements()){
-                Proveedores prov=(Proveedores)elementos.nextElement();
-                //System.out.println(" PROVEEDORES "+prov.getNombre());
-                //prov.setCondicionDeIva(rr.getInt("condicionIva"));
-                //prov.setNumeroDeCuit(rr.getString("numeroCuit"));
-                //prov.setCondicionIngresosBrutos(rr.getInt("condicionIb"));
-                //prov.setNumeroIngresosBrutos(rr.getString("numeroIb"));
+        try {
+            String sql="select *,(select sum(monto) from movimientosproveedores where movimientosproveedores.numeroproveedor=proveedores.numero)as saldoP from proveedores order by nombre";
+            Transaccionable tra=new Conecciones();
+            ResultSet rr=tra.leerConjuntoDeRegistros(sql);
+            while(rr.next()){
+                Proveedores prov=new Proveedores();
+                prov.setNumero(rr.getInt("numero"));
+                prov.setNombre(rr.getString("NOMBRE"));
+                prov.setDireccion(rr.getString("DOMICILIO"));
+                prov.setLocalidad(rr.getString("LOCALIDAD"));
+                prov.setMail(rr.getString("mail"));
+                prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setSaldo(rr.getDouble("saldoP"));
+                /*
+                prov.setCondicionDeIva(rr.getInt("condicionIva"));
+                prov.setNumeroDeCuit(rr.getString("numeroCuit"));
+                prov.setCondicionIngresosBrutos(rr.getInt("condicionIb"));
+                prov.setNumeroIngresosBrutos(rr.getString("numeroIb"));
+                */
                 listado.add(prov);
             }
-            //Collections.sort(listado);
+            rr.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return listado;
     }
 

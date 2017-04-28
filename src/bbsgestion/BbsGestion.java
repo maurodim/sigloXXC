@@ -40,7 +40,7 @@ public class BbsGestion {
         usuariosList=usuarios.listarUsuario();
         */
         File folder=new File("D:\\Gestion");
-        File archivos=new File("D:\\Informes");
+        File archivos=new File("Informes");
         File bases=new File("D:\\Gestion\\DB");
         //File imagenes=new File("C:\\Gestion\\imagenes\\saynomore.jpg");
         File bk;
@@ -50,12 +50,7 @@ public class BbsGestion {
         File archivo=null;
         FileReader fr=null;
         BufferedReader br=null;
-        if(!bases.isDirectory()){
-            JOptionPane.showMessageDialog(null,"INICIANDO CONFIGURACION Y CREACION DE LA BASE DE DATOS");
-            bases.mkdirs();
-            ConeccionLocal.CrearDb();
-            
-        }
+        
         if(!folder.isDirectory()){
             //System.out.println("EXISTE EL DIRECTORIO");
             folder.mkdirs();

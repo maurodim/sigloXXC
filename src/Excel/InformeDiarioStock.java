@@ -38,7 +38,7 @@ public class InformeDiarioStock {
     /*
     AQUI SE GENERA EL INFORME DIARIO DE STOCK POR SUCURSAL
     */
-    public void GenerrarInformeStock(Cajas caja) throws SQLException{
+    public void GenerrarInformeStock(Cajas caja,String rutaP) throws SQLException{
       HSSFWorkbook libro=new HSSFWorkbook();
         HSSFSheet hoja=libro.createSheet("Articulos");
         /*
@@ -400,6 +400,7 @@ public class InformeDiarioStock {
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+ruta);
                 Mail mail=new Mail();
                 mail.setDetalleListado(nombree);
+                
                 mail.setDireccionFile(ruta);
                 mail.setAsunto("Informe de cierre de caja "+Inicio.fechaDia+" Sucursal: "+Propiedades.getNOMBRECOMERCIO());
                 mail.enviarMailRepartoCargaCompleta();

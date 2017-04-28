@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import objetos.Articulos;
@@ -44,6 +45,7 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         //Articulos.CargarMap();
         remito=new RemitosInternos();
         facturaProveedor=new FacturaProveedor();
+        proveedor=new Proveedores();
         initComponents();
     }
 
@@ -90,6 +92,23 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Ingreso de Mercadería");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -102,16 +121,6 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         });
 
         jLabel1.setText("Seleccione Proveedor");
-
-        Proveedores proveedor=new Proveedores();
-        //listaProv=new ArrayList();
-        Personalizable per=new Proveedores();
-        listaProv=per.listar();
-        Iterator ilProv=listaProv.listIterator();
-        while(ilProv.hasNext()){
-            proveedor=(Proveedores)ilProv.next();
-            jComboBox1.addItem(proveedor.getNombre());
-        }
 
         /*
         Cobradores cob=new Cobradores();
@@ -513,25 +522,30 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         comprobante.setGuardaPrecioDeVenta(this.jCheckBox3.isSelected());
         comprobante.setFechaComprobante(Date.valueOf(fecha2));
         comprobante.setFechaRecepcion(Date.valueOf(fecha2));
-        if(facturaProveedor.getNumeroProveedor()==0){
-           facturaProveedor.setNumeroProveedor(1);
-           Personalizable per=new Proveedores();
-           proveedor=(Proveedores) per.buscarPorNumero(1); 
-        }
+        
+            int pos=this.jComboBox1.getSelectedIndex();
+            proveedor=(Proveedores) listaProv.get(pos);
+            facturaProveedor.setNumeroProveedor(proveedor.getNumero());
+            facturaProveedor.setNombreProveedor(proveedor.getNombre());
+        
         comprobante.setIdProveedor(proveedor.getNumero());
         comprobante.setNumeroDeposito(Inicio.deposito.getNumero());
         String numRem="";
+        int remitido=0;
         if(this.jTextField6.getText().equals("")){
             numRem="0";
         }else{
             numRem=this.jTextField6.getText();
+            remitido=1;
         }
        
         comprobante.setNumeroRemito(numRem);
         comprobante.setIdUsuario(Inicio.usuario.getNumero());
         Comprobable comp=new Remitos();
         Integer idRemito=0;
-        idRemito=comp.nuevoComprobante(comprobante);
+        if(remitido==1){
+            idRemito=comp.nuevoComprobante(comprobante);
+        }
         if(this.jCheckBox1.isSelected()){
             
             facturaProveedor.setNombreProveedor(proveedor.getNombre());
@@ -543,6 +557,11 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
             facturaProveedor.setIdSucursal(Inicio.sucursal.getNumero());
             Double monto=Double.parseDouble(this.jTextField2.getText());
             facturaProveedor.setMontoFinal(monto);
+            if(this.jCheckBox4.isSelected()){
+                facturaProveedor.setPagada(1);
+            }else{
+                facturaProveedor.setPagada(0);
+            }
             Comprobable fac=new FacturaProveedor();
             Integer idFactura=0;
             idFactura=fac.nuevoComprobante(facturaProveedor);
@@ -550,7 +569,7 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
             Facturar fact=new FacturaProveedor();
             if(this.jCheckBox4.isSelected()){
                 
-                facturaProveedor.setPagada(1);
+                //facturaProveedor.setPagada(1);
                 facturaProveedor.setFecha(Date.valueOf(fecha2));
                 facturaProveedor.setIdCaja(Inicio.numeroCajaAdministradora);
                 fact.guardar(facturaProveedor);
@@ -558,13 +577,15 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
                 facturaProveedor.setMontoFinal(monto);
                 Adeudable ade=new FacturaProveedor();
                 ade.PagarComprobante(facturaProveedor);
-            }else{
+            }/*
+            else{
                 facturaProveedor.setPagada(0);
                 facturaProveedor.setFecha(Date.valueOf(fecha2));
                 facturaProveedor.setIdCaja(Inicio.numeroCajaAdministradora);
-                fact.guardar(facturaProveedor);
+                
+                //fact.guardar(facturaProveedor);
 
-            }
+            }*/
             
   
         }
@@ -672,6 +693,22 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         }
                 */
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        //Proveedores proveedor=new Proveedores();
+//listaProv=new ArrayList();
+Personalizable per=new Proveedores();
+DefaultComboBoxModel modelo=new DefaultComboBoxModel();
+listaProv=per.listar();
+Iterator ilProv=listaProv.listIterator();
+while(ilProv.hasNext()){
+    proveedor=(Proveedores)ilProv.next();
+    modelo.addElement(proveedor.getNombre());
+    
+}
+this.jComboBox1.setModel(modelo);
+
+    }//GEN-LAST:event_formInternalFrameActivated
 private void agregarRenglonTabla(){
         MiModeloTablaFacturacion busC=new MiModeloTablaFacturacion();
         this.jTable1.removeAll();

@@ -186,7 +186,7 @@ public class FacturaProveedor implements Comprobable,Facturar,Adeudable{
     public Integer nuevoComprobante(Object objeto) {
         FacturaProveedor fact=(FacturaProveedor)objeto;
         Integer idFactura=0;
-        String sql="insert into movimientosproveedores (numeroProveedor,monto,numeroComprobante,idRemito,idUsuario,tipoComprobante,idSucursal) values ("+fact.getNumeroProveedor()+","+fact.getMontoFinal()+",'"+fact.getNumeroFactura()+"',"+fact.getIdRemito()+","+fact.getIdUsuario()+",5,"+fact.getIdSucursal()+")";
+        String sql="insert into movimientosproveedores (numeroProveedor,monto,numeroComprobante,idRemito,idUsuario,tipoComprobante,idSucursal,pagado) values ("+fact.getNumeroProveedor()+","+fact.getMontoFinal()+",'"+fact.getNumeroFactura()+"',"+fact.getIdRemito()+","+fact.getIdUsuario()+",5,"+fact.getIdSucursal()+","+fact.getPagada()+")";
         Transaccionable tra=new Conecciones();
         if(tra.guardarRegistro(sql)){
             sql="select LAST_INSERT_ID()";

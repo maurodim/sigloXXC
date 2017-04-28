@@ -498,6 +498,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
     private void ListarProveedores(){
         Proveedores fact=new Proveedores();
         listadoP=new ArrayList();
+        listadoP.clear();
         //Adeudable ade=new FacturaProveedor();
         Personalizable ade=new Proveedores();
         listadoP=ade.listar();

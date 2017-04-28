@@ -28,10 +28,15 @@ public class Mail {
     private Session sesion;
     private String direccionFile;
     private String detalleListado;
+    private String detalleListado1;
     private String asunto;
 
     public void setAsunto(String asunto) {
         this.asunto = asunto;
+    }
+
+    public void setDetalleListado1(String detalleListado1) {
+        this.detalleListado1 = detalleListado1;
     }
 
     
@@ -79,6 +84,7 @@ public class Mail {
             BodyPart adjunto=new MimeBodyPart();
             adjunto.setDataHandler(new DataHandler(new FileDataSource(direccionFile)));
             adjunto.setFileName(detalleListado);
+            
             MimeMultipart multiParte=new MimeMultipart();
             multiParte.addBodyPart(texto);
             multiParte.addBodyPart(adjunto);

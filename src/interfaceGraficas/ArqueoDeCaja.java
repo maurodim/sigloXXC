@@ -7,6 +7,7 @@ package interfaceGraficas;
 import Actualizaciones.Cierre;
 import Conversores.Numeros;
 import Excel.InformeDiarioStock;
+import Excel.InformeProveedores;
 import Impresiones.Impresora;
 import Sucursales.Cajas;
 import interfacesPrograma.Cajeables;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -437,6 +439,7 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
         //this.dispose();
         //ACA DEBE EMITIR EL INFORME DE STOCK PARA CONTROL Y MANDAR EL MAIL CON EL MISMO INFORME
         InformeDiarioStock info=new InformeDiarioStock();
+        InformeProveedores infoP=new InformeProveedores();
         /*
         Runtime jpfCierre=Runtime.getRuntime();
         
@@ -447,13 +450,17 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
         }
         */
         try {
-            info.GenerrarInformeStock((Cajas) cajas);
+            String infoProvv=infoP.GenerarInformeProveedoresParaCaja();
+            info.GenerrarInformeStock((Cajas) cajas,infoProvv);
+            
          Cierre actu=new Cierre();
          Thread hilo=new Thread(actu);
          hilo.start();
          actu.run();
             
         } catch (SQLException ex) {
+            Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
             Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             Runtime jpfCierre=Runtime.getRuntime();
