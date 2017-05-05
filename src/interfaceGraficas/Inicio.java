@@ -577,7 +577,9 @@ public class Inicio extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
        
        jMenu1.setEnabled(Inicio.usuario.getMenu().getMenu1());
-       jMenu2.setEnabled(Inicio.usuario.getMenu().getMenu2());
+       jMenu2.setEnabled(true);
+       this.jMenuItem12.setEnabled(Inicio.usuario.getMenu().getMenu2());
+       this.jMenuItem13.setEnabled(Inicio.usuario.getMenu().getMenu2());
        jMenu3.setEnabled(Inicio.usuario.getMenu().getMenu3());
        jMenu4.setEnabled(Inicio.usuario.getMenu().getMenu4());
        jMenu5.setEnabled(Inicio.usuario.getMenu().getMenu5());
@@ -797,7 +799,9 @@ public class Inicio extends javax.swing.JFrame {
     }
     public void permisos(Integer nivel){
         jMenu1.setEnabled(Inicio.usuario.getMenu().getMenu1());
-       jMenu2.setEnabled(Inicio.usuario.getMenu().getMenu2());
+       jMenu2.setEnabled(true);
+       this.jMenuItem12.setEnabled(Inicio.usuario.getMenu().getMenu2());
+       this.jMenuItem13.setEnabled(Inicio.usuario.getMenu().getMenu2());
        jMenu3.setEnabled(Inicio.usuario.getMenu().getMenu3());
        jMenu4.setEnabled(Inicio.usuario.getMenu().getMenu4()); 
        jMenu5.setEnabled(Inicio.usuario.getMenu().getMenu5());

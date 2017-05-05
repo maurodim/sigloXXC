@@ -47,6 +47,7 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         facturaProveedor=new FacturaProveedor();
         proveedor=new Proveedores();
         initComponents();
+        this.jButton4.setEnabled(Inicio.usuario.getMenu().getMenu2());
     }
 
     /**

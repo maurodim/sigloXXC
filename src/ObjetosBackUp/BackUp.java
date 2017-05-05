@@ -717,37 +717,23 @@ public class BackUp implements Backapear{
 
     @Override
     public String GenerarArchivos() {
-            
-               /*
-                String sente1="C:/xampp/mysql/bin/mysqldump.exe";
-                sente1+=" -u "+Propiedades.getUSUARIO()+" -p"+Propiedades.getCLAVE()+" "+Propiedades.getBD();
-                System.out.println(sente1);
-                String[] command = new String[] {"cmd.exe", "/c:/bbgestion.sql", sente1};
-                Process process = Runtime.getRuntime().exec(command);
-                BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line;
-                while ((line = input.readLine()) != null) {
-                    System.out.println(line); //there you can write file
-                }
-                input.close();
-                */
-                /*
-                FileOutputStream fos=new FileOutputStream(archivoDestino);
-                new HiloLector(p.getErrorStream()).start();
-                byte[] buffer=new byte[1000];
-                int leido=is.read(buffer);
-                while(leido > 0){
+             String archivoDestino="Configuracion/"+Propiedades.getBD()+".sql";
+        try {
+            String sente="C:/xampp/mysql/bin/mysqldump -h localhost -u "+Propiedades.getUSUARIO()+" -p"+Propiedades.getCLAVE()+" "+Propiedades.getBD();
+            Process p=Runtime.getRuntime().exec(sente);
+            InputStream is=p.getInputStream();
+            FileOutputStream fos=new FileOutputStream(archivoDestino);
+            byte[] buffer=new byte[1000];
+            int leido=is.read(buffer);
+            while(leido > 0){
                 fos.write(buffer,0,leido);
                 leido=is.read(buffer);
-                }
-                fos.close();
-                } catch (IOException ex) {
-                Logger.getLogger(BackUp.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                */
-                
-            
-            return "";
+            }
+            fos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(BackUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return archivoDestino;
     }
 
     @Override

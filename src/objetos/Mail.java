@@ -5,6 +5,9 @@
 package objetos;
 
 import Configuracion.Propiedades;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -29,7 +32,12 @@ public class Mail {
     private String direccionFile;
     private String detalleListado;
     private String detalleListado1;
+    private String direccionFile1;
     private String asunto;
+
+    public void setDireccionFile1(String direccionFile1) {
+        this.direccionFile1 = direccionFile1;
+    }
 
     public void setAsunto(String asunto) {
         this.asunto = asunto;
@@ -81,14 +89,26 @@ public class Mail {
             mensaje.setSubject(asunto);
             BodyPart texto=new MimeBodyPart();
             texto.setText("INFORME GENERADO POR CIERRE DE CAJA   \n Saludos");
+            List<BodyPart> bp = new LinkedList<BodyPart>();
             BodyPart adjunto=new MimeBodyPart();
             adjunto.setDataHandler(new DataHandler(new FileDataSource(direccionFile)));
             adjunto.setFileName(detalleListado);
+            bp.add(adjunto);
+            BodyPart adjunto1=new MimeBodyPart();
+            
+            adjunto1.setDataHandler(new DataHandler(new FileDataSource(direccionFile1)));
+            adjunto1.setFileName(detalleListado1);
+            bp.add(adjunto1);
             
             MimeMultipart multiParte=new MimeMultipart();
             multiParte.addBodyPart(texto);
-            multiParte.addBodyPart(adjunto);
-            //mensaje.setText("El reparto del vehiculo esta cerrado para el reparto. Motivo :CAPACIDAD DE CARGA COMPLETADA");
+            Iterator it = bp.iterator();//<------------la iteramos 
+           while(it.hasNext())//<----------------la recorremos 
+           { 
+              BodyPart attach =(BodyPart)it.next();//<------------obtenemos el objeto 
+            multiParte.addBodyPart(attach);//<-----------------finalmente lo añadimos al mensaje 
+            } 
+           
             mensaje.setContent(multiParte);
             Transport t=sesion.getTransport("smtp");
             t.connect((String)propiedades.get("mail.smtp.user"), password);

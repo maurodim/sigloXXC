@@ -13,6 +13,7 @@ import Sucursales.Cajas;
 import interfacesPrograma.Cajeables;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -450,8 +451,11 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
         }
         */
         try {
-            String infoProvv=infoP.GenerarInformeProveedoresParaCaja();
+            String infoProvv="";
+            infoProvv=infoP.GenerarInformeProveedoresParaCaja();
+            sleep(1000);
             info.GenerrarInformeStock((Cajas) cajas,infoProvv);
+            
             
          Cierre actu=new Cierre();
          Thread hilo=new Thread(actu);
@@ -462,6 +466,8 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
             Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MessagingException ex) {
             Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             Runtime jpfCierre=Runtime.getRuntime();
         
@@ -471,6 +477,7 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(ArqueoDeCaja.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("CIERRE TERMINADO");
         System.exit(1);
         }
         

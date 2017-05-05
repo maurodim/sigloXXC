@@ -331,7 +331,7 @@ public class InformeProveedores {
             
         rs.close();
         //texto+="\r\n";
-        String ruta="Informes//informePorProveedor.xls";
+        String ruta="Informes\\informePorProveedor.xls";
         try {
             FileOutputStream elFichero=new FileOutputStream(ruta);
             try {
@@ -578,19 +578,21 @@ public class InformeProveedores {
             
         rs.close();
         //texto+="\r\n";
-        String ruta="Informes//"+Inicio.caja.getNumero()+"_informePorProveedor.xls";
+        String ruta="D://Informes//"+Inicio.caja.getNumero()+"_informePorProveedor.xls";
         try {
             FileOutputStream elFichero=new FileOutputStream(ruta);
             try {
                 libro.write(elFichero);
                 elFichero.close();
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+ruta);
+               /*
                 Mail mail=new Mail();
                 mail.setDetalleListado(ruta);
                 
                 mail.setDireccionFile(ruta);
                 mail.setAsunto("Informe de cierre de caja "+Inicio.fechaDia+" Sucursal: "+Propiedades.getNOMBRECOMERCIO()+" Informe Proveedores");
                 mail.enviarMailRepartoCargaCompleta();
+                       */
             } catch (IOException ex) {
                 Logger.getLogger(InformeMensual.class.getName()).log(Level.SEVERE, null, ex);
             }

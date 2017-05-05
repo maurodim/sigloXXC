@@ -390,7 +390,7 @@ public class InformeDiarioStock {
         
 
 //texto+="\r\n";
-        String ruta=Inicio.fechaDia+"_"+Inicio.usuario.getNombre()+" - informeDeStock.xls";
+        String ruta="D://Informes//"+Inicio.fechaDia+"_"+Inicio.usuario.getNombre()+" - informeDeStock.xls";
         String nombree=Inicio.fechaDia+"_"+Inicio.usuario.getNombre()+" - informeDeStock.xls";
         try {
             FileOutputStream elFichero=new FileOutputStream(ruta);
@@ -402,6 +402,8 @@ public class InformeDiarioStock {
                 mail.setDetalleListado(nombree);
                 
                 mail.setDireccionFile(ruta);
+                mail.setDetalleListado1("Informe Proveedores.xls");
+                mail.setDireccionFile1(rutaP);
                 mail.setAsunto("Informe de cierre de caja "+Inicio.fechaDia+" Sucursal: "+Propiedades.getNOMBRECOMERCIO());
                 mail.enviarMailRepartoCargaCompleta();
             } catch (IOException ex) {
