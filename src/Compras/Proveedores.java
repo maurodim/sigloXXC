@@ -4,6 +4,7 @@
  */
 package Compras;
 
+import Conversores.Textos;
 import interfaceGraficas.Inicio;
 import interfaces.Personalizable;
 import interfaces.Transaccionable;
@@ -230,7 +231,7 @@ public class Proveedores implements Personalizable{
     public Boolean agregar(Object objeto) {
        Proveedores prov=(Proveedores)objeto;
        Boolean veri=false;
-       String sql="insert into proveedores (NOMBRE,DOMICILIO,LOCALIDAD,TELEFONO,mail) values ('"+prov.getNombre()+"','"+prov.getDireccion()+"','"+prov.getLocalidad()+"','"+prov.getTelefono()+"','"+prov.getMail()+"')";
+       String sql="insert into proveedores (NOMBRE,DOMICILIO,LOCALIDAD,TELEFONO,mail) values ('"+Textos.EliminarCaracteresRaros(prov.getNombre())+"','"+prov.getDireccion()+"','"+prov.getLocalidad()+"','"+prov.getTelefono()+"','"+prov.getMail()+"')";
        Transaccionable tra=new Conecciones();
        if(tra.guardarRegistro(sql)){
            int numero=0;
@@ -242,6 +243,8 @@ public class Proveedores implements Personalizable{
                 }
                 rs.close();
                 prov.setNumero(numero);
+                sql="update proveedores set id=numero";
+                tra.guardarRegistro(sql);
                 listadoProv.putIfAbsent(numero,prov);
             } catch (SQLException ex) {
                 Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);

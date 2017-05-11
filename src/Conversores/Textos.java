@@ -17,4 +17,11 @@ public class Textos {
              
         return resultado;
     }
+    public static String EliminarCaracteresRaros(String ttx){
+        String resultado=ttx;
+        resultado=resultado.replaceAll("'"," ");
+        resultado=resultado.replaceAll("/", "-");
+        resultado=resultado.replaceAll("&","-");
+        return resultado;
+    }
 }

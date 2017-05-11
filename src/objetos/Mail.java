@@ -135,4 +135,51 @@ public class Mail {
             System.err.println("EL MENSAJE NO SE PUDO ENVIAR "+me);
         }
     }
+   public void enviarMailBalance() throws MessagingException{
+        init();
+        try{
+            MimeMessage mensaje=new MimeMessage(sesion);
+            mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
+            mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getCORREOCIERREDECAJA()));
+            mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
+            String cc=Propiedades.getCORREOCC();
+            String ccc=Propiedades.getCORREOCCC();
+            if(cc.equals("")){
+                
+            }else{
+                mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress(Propiedades.getCORREOCC()));
+            }
+            if(ccc.equals("")){
+            }else{
+                mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress(Propiedades.getCORREOCCC()));
+            }
+            
+            mensaje.setSubject(asunto);
+            BodyPart texto=new MimeBodyPart();
+            texto.setText("INFORME GENERADO POR INFORME DE BALANCE   \n Saludos");
+            List<BodyPart> bp = new LinkedList<BodyPart>();
+            BodyPart adjunto=new MimeBodyPart();
+            adjunto.setDataHandler(new DataHandler(new FileDataSource(direccionFile)));
+            adjunto.setFileName(detalleListado);
+            bp.add(adjunto);
+            
+            
+            MimeMultipart multiParte=new MimeMultipart();
+            multiParte.addBodyPart(texto);
+            Iterator it = bp.iterator();//<------------la iteramos 
+           while(it.hasNext())//<----------------la recorremos 
+           { 
+              BodyPart attach =(BodyPart)it.next();//<------------obtenemos el objeto 
+            multiParte.addBodyPart(attach);//<-----------------finalmente lo añadimos al mensaje 
+            } 
+           
+            mensaje.setContent(multiParte);
+            Transport t=sesion.getTransport("smtp");
+            t.connect((String)propiedades.get("mail.smtp.user"), password);
+            t.sendMessage(mensaje,mensaje.getAllRecipients());
+            t.close();
+        }catch(MessagingException me){
+            System.err.println("EL MENSAJE NO SE PUDO ENVIAR "+me);
+        }
+    }
 }
