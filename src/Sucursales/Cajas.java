@@ -58,6 +58,25 @@ public class Cajas extends Sucursales implements Cajeables{
     private static Integer numeroDeComprobanteBk=0;
     private static ArrayList listadoDeComprobantes=new ArrayList();
     private Integer idMovimiento;
+    private Double montoDebito;
+    private String cuponDebito;
+
+    public Double getMontoDebito() {
+        return montoDebito;
+    }
+
+    public void setMontoDebito(Double montoDebito) {
+        this.montoDebito = montoDebito;
+    }
+
+    public String getCuponDebito() {
+        return cuponDebito;
+    }
+
+    public void setCuponDebito(String cuponDebito) {
+        this.cuponDebito = cuponDebito;
+    }
+    
 
     public Integer getIdMovimiento() {
         return idMovimiento;
@@ -722,6 +741,8 @@ public class Cajas extends Sucursales implements Cajeables{
                 cajass.setTipoMovimiento(rs.getInt("tipoMovimiento"));
                 cajass.setMontoMovimiento(rs.getDouble("monto"));
                 saldoFinal= saldoFinal + rs.getDouble("monto");
+                cajass.setMontoDebito(rs.getDouble("montodebito"));
+                cajass.setCuponDebito(rs.getString("cupon"));
                 cajass.setTipoDeComprobante(rs.getInt("tipoComprobante"));
                 cajass.setIdMovimiento(rs.getInt("id"));
                 int pos=cajass.getTipoMovimiento() -1;

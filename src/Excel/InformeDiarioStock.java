@@ -274,21 +274,26 @@ public class InformeDiarioStock {
             celda3.setCellValue("Tipo Comprobante");
             celda4=fila.createCell(4);
             celda4.setCellStyle(titulo);
-            celda4.setCellValue("Monto");
+            celda4.setCellValue("Monto Efectivo");
             celda5=fila.createCell(5);
             celda5.setCellStyle(titulo);
-            celda5.setCellValue("Fecha");
+            celda5.setCellValue("Monto Debito");
             celda6=fila.createCell(6);
             celda6.setCellStyle(titulo);
-            celda6.setCellValue("Tipo de Movimiento");
+            celda6.setCellValue("Cupon");
             celda7=fila.createCell(7);
             celda7.setCellStyle(titulo);
-            celda7.setCellValue("Condicion");
+            celda7.setCellValue("Fecha");
 
             celda8=fila.createCell(8);
             celda8.setCellStyle(titulo);
-            celda8.setCellValue("idMovimiento");
-            
+            celda8.setCellValue("Tipo de Movimiento");
+            celda9=fila.createCell(9);
+            celda9.setCellStyle(titulo);
+            celda9.setCellValue("Condicion");
+            celda10=fila.createCell(9);
+            celda10.setCellStyle(titulo);
+            celda10.setCellValue("idMovimiento");
             
             }
             while(rs.next()){
@@ -324,24 +329,30 @@ public class InformeDiarioStock {
            
             celda5=fila.createCell(5);
             //celda5.setCellFormula(rs.getString("observaciones"));
-            celda5.setCellType(HSSFCell.CELL_TYPE_STRING);
-            celda5.setCellValue(" "+rs.getDate("fecha"));
+            celda5.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+            celda5.setCellValue(rs.getDouble("montodebito"));
             //celda5.setCellValue(rs.getDate("fecha"));
             celda6=fila.createCell(6);
             celda6.setCellType(HSSFCell.CELL_TYPE_STRING);
-            celda6.setCellValue(rs.getString("nombreMov"));
+            celda6.setCellValue(rs.getString("cupon"));
             celda7=fila.createCell(7);
             String pagado="PAGADO";
             if(rs.getInt("pagado")==0 && rs.getInt("tipoMovimiento")==1)pagado="CTA CTE";
             celda7.setCellType(HSSFCell.CELL_TYPE_STRING);
-            celda7.setCellValue(pagado);
+            celda7.setCellValue(" "+rs.getDate("fecha"));
             
             celda8=fila.createCell(8);
-            celda8.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
-            celda8.setCellValue(rs.getInt("id"));
+            celda8.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda8.setCellValue(rs.getString("nombreMov"));
             celda8=fila.createCell(9);
             celda8.setCellType(HSSFCell.CELL_TYPE_STRING);
-            celda8.setCellValue(rs.getString("observaciones"));
+            celda8.setCellValue(pagado);
+            celda9=fila.createCell(9);
+            celda9.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+            celda9.setCellValue(rs.getInt("id"));
+            celda10=fila.createCell(9);
+            celda10.setCellType(HSSFCell.CELL_TYPE_STRING);
+            celda10.setCellValue(rs.getString("observaciones"));
         }
             a++;
             

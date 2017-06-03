@@ -55,6 +55,25 @@ public class Comprobantes implements Facturar{
     private int fiscal;
     private int tipoComprobanteFiscal;
     private Integer id;
+    private Double montoDebito;
+    private String cupon;
+
+    public Double getMontoDebito() {
+        return montoDebito;
+    }
+
+    public void setMontoDebito(Double montoDebito) {
+        this.montoDebito = montoDebito;
+    }
+
+    public String getCupon() {
+        return cupon;
+    }
+
+    public void setCupon(String cupon) {
+        this.cupon = cupon;
+    }
+    
 
     public Integer getId() {
         return id;
@@ -567,7 +586,7 @@ public class Comprobantes implements Facturar{
                System.out.println("fiscal: "+sql);
                tra.guardarRegistro(sql);
         }else{
-            sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado) values ("+comp.getUsuarioGenerador()+","+comp.getIdSucursal()+","+comp.getNumero()+","+comp.getTipoComprobante()+","+comp.getMontoTotal()+","+comp.getTipoMovimiento()+","+Inicio.caja.getNumero()+","+comp.getCliente().getCodigoId()+",1,"+comp.getPagado()+")";
+            sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado,montodebito,cupon) values ("+comp.getUsuarioGenerador()+","+comp.getIdSucursal()+","+comp.getNumero()+","+comp.getTipoComprobante()+","+comp.getMontoTotal()+","+comp.getTipoMovimiento()+","+Inicio.caja.getNumero()+","+comp.getCliente().getCodigoId()+",1,"+comp.getPagado()+","+comp.getMontoDebito()+",'"+comp.getCupon()+"')";
             tra.guardarRegistro(sql);
             sql="select last_insert_id()";
             rr=tra.leerConjuntoDeRegistros(sql);

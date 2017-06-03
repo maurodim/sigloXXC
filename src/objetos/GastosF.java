@@ -7,6 +7,7 @@ package objetos;
 import Compras.Proveedores;
 import Conversores.Numeros;
 import interfaceGraficas.Inicio;
+import interfaces.Componable;
 import interfaces.Editables;
 import interfaces.Transaccionable;
 import java.sql.ResultSet;
@@ -17,19 +18,59 @@ import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author mauro
  */
-public class GastosF implements Editables{
+public class GastosF implements Editables,Componable{
     private Integer id;
-    private Proveedores proveedor;
+    private Integer proveedor;
     private Double monto;
     private Date fechaVencimiento;
     private static ConcurrentHashMap listadoVencimientos=new ConcurrentHashMap();
     private String numeroFactura;
     private static Integer numeroComprobanteInt;
+    private Integer pediodo;
+    private Integer habilitado;
+    private Integer pagado;
+
+    public Integer getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Integer proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public Integer getPediodo() {
+        return pediodo;
+    }
+
+    public void setPediodo(Integer pediodo) {
+        this.pediodo = pediodo;
+    }
+
+    public Integer getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Integer habilitado) {
+        this.habilitado = habilitado;
+    }
+
+    public Integer getPagado() {
+        return pagado;
+    }
+
+    public void setPagado(Integer pagado) {
+        this.pagado = pagado;
+    }
+    
+    
 
     public String getNumeroFactura() {
         return numeroFactura;
@@ -47,13 +88,6 @@ public class GastosF implements Editables{
         this.id = id;
     }
 
-    public Proveedores getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(Proveedores proveedor) {
-        this.proveedor = proveedor;
-    }
 
     public Double getMonto() {
         return monto;
@@ -72,7 +106,7 @@ public class GastosF implements Editables{
     }
     
     public static void cargarMap(){
-      String sql="select * from movimientosgastosfijos where pagado=0";
+      String sql="select * from gastofijos where pagado=0";
       Transaccionable tra;
       
       if(Inicio.coneccionRemota){
@@ -89,8 +123,11 @@ public class GastosF implements Editables{
                 gastos.setFechaVencimiento(rs.getDate("fechaVencimiento"));
                 gastos.setId(id);
                 gastos.setMonto(rs.getDouble("monto"));
-                gastos.setNumeroFactura(rs.getString("numeroFactura"));
-                gastos.setProveedor(new Proveedores(rs.getInt("idProveedor")));
+                //gastos.setNumeroFactura(rs.getString("numeroFactura"));
+                gastos.setProveedor(rs.getInt("idProveedor"));
+                gastos.setHabilitado(rs.getInt("habilitado"));
+                gastos.setPagado(rs.getInt("pagado"));
+                gastos.setPediodo(rs.getInt("periodo"));
                 listadoVencimientos.putIfAbsent(id,gastos);
                 
             }
@@ -125,8 +162,10 @@ public class GastosF implements Editables{
         Boolean verif=false;
         GastosF gastos=(GastosF)objeto;
         String fecha=Numeros.ConvertirFecha(gastos.getFechaVencimiento());
-        String sql="insert into movimientosgastosfijos (idProveedor,monto,fechaVencimiento,numeroFactura) values ("+gastos.getProveedor().getNumero()+","+gastos.getMonto()+",'"+fecha+"','"+gastos.getNumeroFactura()+"')";
+        String sql="insert into gastofijos (idProveedor,monto,fechaVencimiento,periodo) values ("+gastos.getProveedor()+","+gastos.getMonto()+",'"+fecha+"','"+gastos.getPediodo()+"')";
         Transaccionable tra=new Conecciones();
+        verif=tra.guardarRegistro(sql);
+        /*
         if(tra.guardarRegistro(sql)){
             verif=true;
             sql="select LAST_INSERT_ID()";
@@ -138,13 +177,14 @@ public class GastosF implements Editables{
                     
                 }
                 rs.close();
-                sql="insert into movimientosproveedores (numeroProveedor,monto,pagado,idRemito,idUsuario,idCaja,fechaPago,tipoComprobante,numeroComprobante) values ("+gastos.getProveedor().getNumero()+","+gastos.getMonto()+",0,0,"+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"',13,"+numeroComprobanteInt+")";
+                sql="insert into movimientosproveedores (numeroProveedor,monto,pagado,idRemito,idUsuario,idCaja,fechaPago,tipoComprobante,numeroComprobante) values ("+gastos.getProveedor()+","+gastos.getMonto()+",0,0,"+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"',13,"+numeroComprobanteInt+")";
                 tra.guardarRegistro(sql);
             } catch (SQLException ex) {
                 Logger.getLogger(GastosF.class.getName()).log(Level.SEVERE, null, ex);
             }
             listadoVencimientos.put(id, gastos);
         }
+        */
         
         return verif;
     }
@@ -155,14 +195,14 @@ public class GastosF implements Editables{
        LeerComprobante();
        numeroComprobanteInt++;
        GastosF gastos=(GastosF)objeto;
-       String sql="insert into movimientosproveedores (numeroProveedor,monto,pagado,idRemito,idUsuario,idCaja,fechaPago,tipoComprobante,numeroComprobante) values ("+gastos.getProveedor().getNumero()+","+gastos.getMonto()+",1,0,"+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"',13,"+numeroComprobanteInt+")";
+       String sql="insert into movimientosproveedores (numeroProveedor,monto,pagado,idRemito,idUsuario,idCaja,fechaPago,tipoComprobante,numeroComprobante) values ("+gastos.getProveedor()+","+gastos.getMonto()+",1,0,"+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"',13,"+numeroComprobanteInt+")";
        Transaccionable tra=new Conecciones();
        verif=tra.guardarRegistro(sql);
        
        
-       sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado) values ("+Inicio.usuario.getNumeroId()+","+Inicio.sucursal.getNumero()+","+numeroComprobanteInt+",13,"+gastos.getMonto()+",11,"+Inicio.caja.getNumero()+","+gastos.getProveedor().getNumero()+",2,1)";
+       sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado) values ("+Inicio.usuario.getNumeroId()+","+Inicio.sucursal.getNumero()+","+numeroComprobanteInt+",13,"+gastos.getMonto()+",11,"+Inicio.caja.getNumero()+","+gastos.getProveedor()+",2,1)";
        verif=tra.guardarRegistro(sql);
-       sql="update movimientosgastosfijos set pagado=1,fechaPago='"+Inicio.fechaDia+"',idCaja="+Inicio.caja.getNumero()+" where id="+gastos.getId();
+       sql="update gastofijos set pagado="+gastos.getPagado()+",fechaPago='"+Inicio.fechaDia+"',idCaja="+Inicio.caja.getNumero()+" where id="+gastos.getId();
        verif=tra.guardarRegistro(sql);
        ActualizarComprobante();
        
@@ -173,7 +213,7 @@ public class GastosF implements Editables{
     public Boolean EliminacionDeObjeto(Object objeto) {
         Boolean verif=false;
         GastosF gastos=(GastosF)objeto;
-        String sql="delete movimientosgastosfijos where id="+gastos.getId();
+        String sql="delete gastofijos where id="+gastos.getId();
         Transaccionable tra=new Conecciones();
         if(tra.guardarRegistro(sql)){
             verif=true;
@@ -190,6 +230,51 @@ public class GastosF implements Editables{
 
     @Override
     public ArrayList ListarPorSucursal(Object objeto) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultListModel LlenarList(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTabla(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ComboBoxModel LlenarCombo(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultListModel LlenarListConArray(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTablaConArray(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ComboBoxModel LlenarComboConArray(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int posicionEnCombo(Object objeto, ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTablaConArrayEnDolares(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTablaConArrayEnMonedas(ArrayList listado, Object moneda) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

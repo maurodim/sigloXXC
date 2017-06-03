@@ -95,7 +95,7 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("Numero factura :");
+        jLabel4.setText("Periodo de meses");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,10 +181,11 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
         String vencimiento=fecha1;
         //System.out.println("FECHA SELECCIONADA :"+vencimiento);
         nuevoGasto.setFechaVencimiento(Numeros.ConvertirStringEnDate(vencimiento));
-        nuevoGasto.setProveedor((Proveedores)listaProv.get(this.jComboBox1.getSelectedIndex()) );
+        Proveedores proveedor=(Proveedores)listaProv.get(this.jComboBox1.getSelectedIndex());
+        nuevoGasto.setProveedor(proveedor.getNumero() );
         Double monto=Numeros.ConvertirStringADouble(this.jTextField1.getText());
         nuevoGasto.setMonto(monto);
-        nuevoGasto.setNumeroFactura(this.jTextField2.getText());
+        nuevoGasto.setPediodo(Integer.parseInt(this.jTextField2.getText()));
         Editables edita=new GastosF();
         edita.AltaObjeto(nuevoGasto);
         this.dispose();
