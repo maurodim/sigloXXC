@@ -2,8 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaceGraficas;
+package GastosFijos.Pantallas;
 
+import GastosFijos.Objetos.GastosF;
+import interfaceGraficas.Inicio;
+import interfaces.Componable;
+import interfaces.Personalizable;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,12 +16,13 @@ import javax.swing.JOptionPane;
  * @author mauro
  */
 public class GastosFijos extends javax.swing.JInternalFrame {
-
+    private ArrayList listadoGtos;
     /**
      * Creates new form GastosFijos
      */
     public GastosFijos() {
         initComponents();
+        listadoGtos=new ArrayList();
     }
 
     /**
@@ -33,6 +39,7 @@ public class GastosFijos extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -77,6 +84,13 @@ public class GastosFijos extends javax.swing.JInternalFrame {
 
         jButton2.setText("Eliminar Gasto");
 
+        jButton3.setText("Pagar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -87,7 +101,8 @@ public class GastosFijos extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,8 +113,10 @@ public class GastosFijos extends javax.swing.JInternalFrame {
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,12 +147,33 @@ public class GastosFijos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
-        JOptionPane.showMessageDialog(this,"activado");
+        //JOptionPane.showMessageDialog(this,"activado");
+        Personalizable per=new GastosF();
+        listadoGtos=per.listarPorNombre("");
+        Componable comp=new GastosF();
+        this.jTable1.setModel(comp.LlenarTablaConArray(listadoGtos));
     }//GEN-LAST:event_formInternalFrameActivated
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int posicion=this.jTable1.getSelectedRow();
+        GastosF gtoFi=new GastosF();
+        gtoFi=(GastosF) listadoGtos.get(posicion);
+        String mmonto=JOptionPane.showInputDialog(this,"Ingrese por favor numero de la factura");
+        gtoFi.setNumeroFactura(mmonto);
+        gtoFi.pagar(gtoFi);
+        listadoGtos.clear();
+        Personalizable per=new GastosF();
+        listadoGtos=per.listarPorNombre("");
+        Componable comp=new GastosF();
+        this.jTable1.setModel(comp.LlenarTablaConArray(listadoGtos));
+        
+                
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

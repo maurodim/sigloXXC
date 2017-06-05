@@ -4,7 +4,7 @@
  */
 package objetos;
 
-import Compras.Proveedores;
+import Proveedores.Objetos.Proveedores;
 import Configuracion.Propiedades;
 import Depositos.Depositos;
 import Sucursales.Cajas;

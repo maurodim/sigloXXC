@@ -2,10 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compras;
+package Proveedores.Objetos;
 
+import Conversores.Numeros;
 import Conversores.Textos;
 import interfaceGraficas.Inicio;
+import interfaces.Componable;
 import interfaces.Personalizable;
 import interfaces.Transaccionable;
 import java.sql.ResultSet;
@@ -18,6 +20,9 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 import objetos.Articulos;
 import objetos.ConeccionLocal;
 import objetos.Conecciones;
@@ -26,7 +31,7 @@ import objetos.Conecciones;
  *
  * @author mauro
  */
-public class Proveedores implements Personalizable{
+public class Proveedores implements Personalizable,Componable{
     private int numero;
     private String nombre;
     private String direccion;
@@ -38,8 +43,18 @@ public class Proveedores implements Personalizable{
     private int condicionIngresosBrutos;
     private String numeroIngresosBrutos;
     private Double saldo=0.00;
+    private Integer tipo;
     private static ConcurrentHashMap listadoProv=new ConcurrentHashMap();
 
+    public Integer getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Integer tipo) {
+        this.tipo = tipo;
+    }
+
+    
     public Double getSaldo() {
         return saldo;
     }
@@ -157,6 +172,7 @@ public class Proveedores implements Personalizable{
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
                 prov.setSaldo(rr.getDouble("saldo"));
+                prov.setTipo(rr.getInt("tipo"));
               //  if(Inicio.coneccionRemota)prov.setSaldo(rr.getDouble("saldo"));
                 //prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 //prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -193,6 +209,7 @@ public class Proveedores implements Personalizable{
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
                 prov.setSaldo(rr.getDouble("saldo"));
+                prov.setTipo(rr.getInt("tipo"));
               //  if(Inicio.coneccionRemota)prov.setSaldo(rr.getDouble("saldo"));
                 //prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 //prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -227,11 +244,42 @@ public class Proveedores implements Personalizable{
             tra.guardarRegistro(sql);
         }
     }
+    public ArrayList listarPorTipo(int tip){
+         ArrayList listado=new ArrayList();
+        try {
+            String sql="select *,(select sum(monto) from movimientosproveedores where movimientosproveedores.numeroproveedor=proveedores.numero)as saldoP from proveedores where tipo="+tip+" order by nombre";
+            Transaccionable tra=new Conecciones();
+            ResultSet rr=tra.leerConjuntoDeRegistros(sql);
+            while(rr.next()){
+                Proveedores prov=new Proveedores();
+                prov.setNumero(rr.getInt("numero"));
+                prov.setNombre(rr.getString("NOMBRE"));
+                prov.setDireccion(rr.getString("DOMICILIO"));
+                prov.setLocalidad(rr.getString("LOCALIDAD"));
+                prov.setMail(rr.getString("mail"));
+                prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setSaldo(rr.getDouble("saldoP"));
+                prov.setTipo(rr.getInt("tipo"));
+                /*
+                prov.setCondicionDeIva(rr.getInt("condicionIva"));
+                prov.setNumeroDeCuit(rr.getString("numeroCuit"));
+                prov.setCondicionIngresosBrutos(rr.getInt("condicionIb"));
+                prov.setNumeroIngresosBrutos(rr.getString("numeroIb"));
+                */
+                listado.add(prov);
+            }
+            rr.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
     @Override
     public Boolean agregar(Object objeto) {
        Proveedores prov=(Proveedores)objeto;
        Boolean veri=false;
-       String sql="insert into proveedores (NOMBRE,DOMICILIO,LOCALIDAD,TELEFONO,mail) values ('"+Textos.EliminarCaracteresRaros(prov.getNombre())+"','"+prov.getDireccion()+"','"+prov.getLocalidad()+"','"+prov.getTelefono()+"','"+prov.getMail()+"')";
+       String sql="insert into proveedores (NOMBRE,DOMICILIO,LOCALIDAD,TELEFONO,mail,tipo) values ('"+Textos.EliminarCaracteresRaros(prov.getNombre())+"','"+prov.getDireccion()+"','"+prov.getLocalidad()+"','"+prov.getTelefono()+"','"+prov.getMail()+"',"+prov.getTipo()+")";
        Transaccionable tra=new Conecciones();
        if(tra.guardarRegistro(sql)){
            int numero=0;
@@ -261,7 +309,7 @@ public class Proveedores implements Personalizable{
     public Boolean modificar(Object objeto) {
        Boolean veri=false;
        Proveedores prov=(Proveedores)objeto;
-       String sql="update proveedores set NOMBRE='"+prov.getNombre()+"',DOMICILIO='"+prov.getDireccion()+"',LOCALIDAD='"+prov.getLocalidad()+"',TELEFONO='"+prov.getTelefono()+"',mail='"+prov.getMail()+"' where numero="+prov.getNumero();
+       String sql="update proveedores set NOMBRE='"+prov.getNombre()+"',tipo="+prov.getTipo()+",DOMICILIO='"+prov.getDireccion()+"',LOCALIDAD='"+prov.getLocalidad()+"',TELEFONO='"+prov.getTelefono()+"',mail='"+prov.getMail()+"' where numero="+prov.getNumero();
        Transaccionable tra=new Conecciones();
        if(tra.guardarRegistro(sql)){}else{
            veri=false;
@@ -297,6 +345,7 @@ public class Proveedores implements Personalizable{
                 prov.setLocalidad(rr.getString("LOCALIDAD"));
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setTipo(rr.getInt("tipo"));
                 //prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 //prov.setNumeroDeCuit(rr.getString("numeroCuit"));
                 //prov.setCondicionIngresosBrutos(rr.getInt("condicionIb"));
@@ -324,6 +373,7 @@ public class Proveedores implements Personalizable{
                 prov.setLocalidad(rr.getString("LOCALIDAD"));
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setTipo(rr.getInt("tipo"));
                 /*
                 prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -353,6 +403,7 @@ public class Proveedores implements Personalizable{
                 prov.setLocalidad(rr.getString("LOCALIDAD"));
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setTipo(rr.getInt("tipo"));
                 /*
                 prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -384,6 +435,7 @@ public class Proveedores implements Personalizable{
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
                 prov.setSaldo(rr.getDouble("saldoP"));
+                prov.setTipo(rr.getInt("tipo"));
                 /*
                 prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -415,6 +467,7 @@ public class Proveedores implements Personalizable{
                 prov.setLocalidad(rr.getString("LOCALIDAD"));
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setTipo(rr.getInt("tipo"));
                 /*
                 prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -446,6 +499,7 @@ public class Proveedores implements Personalizable{
                 prov.setLocalidad(rr.getString("LOCALIDAD"));
                 prov.setMail(rr.getString("mail"));
                 prov.setTelefono(rr.getString("TELEFONO"));
+                prov.setTipo(rr.getInt("tipo"));
                 /*
                 prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 prov.setNumeroDeCuit(rr.getString("numeroCuit"));
@@ -460,6 +514,71 @@ public class Proveedores implements Personalizable{
             Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listado;
+    }
+
+    @Override
+    public DefaultListModel LlenarList(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTabla(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ComboBoxModel LlenarCombo(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultListModel LlenarListConArray(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTablaConArray(ArrayList listado) {
+        DefaultTableModel modelo=new DefaultTableModel();
+        Iterator it=listado.listIterator();
+        modelo.addColumn("id");
+        modelo.addColumn("nombre");
+        modelo.addColumn("saldo");
+        modelo.addColumn("tipo");
+        Object [] fila=new Object[4];
+        Proveedores proveedor;
+        while(it.hasNext()){
+            proveedor=(Proveedores)it.next();
+            fila[0]=String.valueOf(proveedor.getNumero());
+            fila[1]=proveedor.getNombre();
+            fila[2]=Numeros.ConvetirNumeroDosDigitos(proveedor.getSaldo());
+            if(proveedor.getTipo()==1){
+                fila[3]="Gastos Fijos";
+            }else{
+                fila[3]="";
+            }
+            modelo.addRow(fila);
+        }
+        return modelo;
+    }
+
+    @Override
+    public ComboBoxModel LlenarComboConArray(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int posicionEnCombo(Object objeto, ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTablaConArrayEnDolares(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel LlenarTablaConArrayEnMonedas(ArrayList listado, Object moneda) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

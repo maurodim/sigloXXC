@@ -2,18 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaceGraficas;
+package GastosFijos.Pantallas;
 
-import Compras.Proveedores;
+import Proveedores.Objetos.Proveedores;
 import Conversores.Numeros;
 import interfaces.Editables;
 import interfaces.Personalizable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
-import objetos.GastosF;
+import GastosFijos.Objetos.GastosF;
+import interfaceGraficas.Inicio;
+import Proveedores.Pantallas.ProveedoresAbm;
+import java.util.Date;
 
 /**
  *
@@ -47,12 +49,27 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
 
         setClosable(true);
         setMaximizable(true);
         setTitle("Ingreso de Nuevo Gasto Fijo");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -65,19 +82,9 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Fecha de Vencimiento :");
+        jLabel1.setText("Fecha de Alta :");
 
         jLabel2.setText("Proveedor :");
-
-        Proveedores proveedor=new Proveedores();
-        listaProv=new ArrayList();
-        Personalizable per=new Proveedores();
-        listaProv=per.listar();
-        Iterator ilProv=listaProv.listIterator();
-        while(ilProv.hasNext()){
-            proveedor=(Proveedores)ilProv.next();
-            jComboBox1.addItem(proveedor.getNombre());
-        }
 
         jLabel3.setText("Monto :");
 
@@ -95,8 +102,6 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("Periodo de meses");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -104,7 +109,6 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
@@ -113,8 +117,7 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dateChooserCombo1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2))
+                    .addComponent(jTextField1))
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                 .addContainerGap())
@@ -135,10 +138,6 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -179,13 +178,14 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
         int dd=fechaNueva.get(Calendar.DAY_OF_MONTH);
         String fecha1=ano+"-"+mes+"-"+dd;
         String vencimiento=fecha1;
+        //Date ffV=Numeros.ConvertirStringEnDate(vencimiento);
         //System.out.println("FECHA SELECCIONADA :"+vencimiento);
-        nuevoGasto.setFechaVencimiento(Numeros.ConvertirStringEnDate(vencimiento));
+        nuevoGasto.setFechaVencimiento(vencimiento);
         Proveedores proveedor=(Proveedores)listaProv.get(this.jComboBox1.getSelectedIndex());
         nuevoGasto.setProveedor(proveedor.getNumero() );
         Double monto=Numeros.ConvertirStringADouble(this.jTextField1.getText());
         nuevoGasto.setMonto(monto);
-        nuevoGasto.setPediodo(Integer.parseInt(this.jTextField2.getText()));
+        nuevoGasto.setPediodo(0);
         Editables edita=new GastosF();
         edita.AltaObjeto(nuevoGasto);
         this.dispose();
@@ -205,6 +205,21 @@ public class NuevosGastoFijo extends javax.swing.JInternalFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
     }//GEN-LAST:event_formComponentShown
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        Proveedores proveedor=new Proveedores();
+        
+        listaProv=new ArrayList();
+        Proveedores per=new Proveedores();
+        listaProv.clear();
+        jComboBox1.removeAllItems();
+        listaProv=per.listarPorTipo(1);
+        Iterator ilProv=listaProv.listIterator();
+        while(ilProv.hasNext()){
+            proveedor=(Proveedores)ilProv.next();
+            jComboBox1.addItem(proveedor.getNombre());
+        }
+    }//GEN-LAST:event_formInternalFrameActivated
 public void recargarBox(){
     //jComboBox1 = new javax.swing.JComboBox();
     jComboBox1.removeAllItems();
@@ -227,9 +242,7 @@ public void recargarBox(){
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

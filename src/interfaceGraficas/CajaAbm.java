@@ -4,8 +4,8 @@
  */
 package interfaceGraficas;
 
-import Compras.FacturaProveedor;
-import Compras.Proveedores;
+import Proveedores.Objetos.FacturaProveedor;
+import Proveedores.Objetos.Proveedores;
 import Conversores.Numeros;
 import Impresiones.Impresora;
 import Sucursales.Cajas;
@@ -214,12 +214,14 @@ public class CajaAbm extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jComboBox2, 0, 213, Short.MAX_VALUE)
                     .addComponent(jTextField1)
                     .addComponent(jTextField2))
@@ -309,7 +311,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
                         .addGap(62, 62, 62)))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(212, 212, 212))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,7 +504,7 @@ public class CajaAbm extends javax.swing.JInternalFrame {
         listadoP.clear();
         //Adeudable ade=new FacturaProveedor();
         Personalizable ade=new Proveedores();
-        listadoP=ade.listar();
+        listadoP=fact.listarPorTipo(0);
         Iterator ilP=listadoP.listIterator();
         while(ilP.hasNext()){
             fact=(Proveedores)ilP.next();

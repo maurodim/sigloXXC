@@ -61,7 +61,7 @@ public class InformeProveedores {
         fuente.setFontName(fuente.FONT_ARIAL);
         fuente.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         String form=null;
-        String sql="SELECT *,(select proveedores.nombre from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as nombreP,if(pagado=0,'pendiente','pagado')as estado FROM movimientosproveedores where fecha between '"+desde+"' and '"+hasta+"'";
+        String sql="SELECT *,(select proveedores.nombre from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as nombreP,if(pagado=0,'pendiente','pagado')as estado,(select proveedores.tipo from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as tipoP FROM movimientosproveedores where fecha between '"+desde+"' and '"+hasta+"'";
         System.out.println(sql);
         Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
@@ -136,6 +136,12 @@ public class InformeProveedores {
             celda6=fila.createCell(6);
             celda6.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
             celda6.setCellValue(rs.getInt("idCaja"));
+            if(rs.getInt("tipoP")==1){
+                celda6=fila.createCell(7);
+                celda6.setCellType(HSSFCell.CELL_TYPE_STRING);
+                celda6.setCellValue("Gasto Fijo");
+
+            }
         }
           /*
            * segunda hoja
@@ -211,7 +217,7 @@ public class InformeProveedores {
            * tercera hoja
            */  
            
-            sql="select sum(monto)as saldoP,(select proveedores.nombre from proveedores where proveedores.numero=numeroProveedor)as nombreP from movimientosproveedores group by numeroProveedor";
+            sql="select sum(monto)as saldoP,(select proveedores.nombre from proveedores where proveedores.numero=numeroProveedor)as nombreP,(select proveedores.tipo from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as tipoP from movimientosproveedores group by numeroProveedor";
             System.out.println(sql);
         //fuente.setFontHeight((short)21);
         fuente.setFontName(fuente.FONT_ARIAL);
@@ -258,12 +264,18 @@ public class InformeProveedores {
             ttx=ttx;
             celda1.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
             celda1.setCellValue(rs.getDouble("saldoP"));
+            if(rs.getInt("tipoP")==1){
+                 celda=fila.createCell(2);
+                ttx=ttx;
+                celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+                celda.setCellValue("Gasto Fijo");
+            }
             }
             /*
            * cuarta hoja
            */  
            
-            sql="select numeroProveedor,fecha,monto,numeroComprobante,idRemito,tipoComprobante,(select proveedores.nombre from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as nombreP,(select tipocomprobantes.descripcion from tipocomprobantes where tipocomprobantes.numero=movimientosproveedores.tipoComprobante)as comprobante from movimientosproveedores where fecha between '"+desde+"' and '"+hasta+"' order by numeroProveedor";
+            sql="select numeroProveedor,fecha,monto,numeroComprobante,idRemito,tipoComprobante,(select proveedores.nombre from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as nombreP,(select tipocomprobantes.descripcion from tipocomprobantes where tipocomprobantes.numero=movimientosproveedores.tipoComprobante)as comprobante,(select proveedores.tipo from proveedores where proveedores.numero=movimientosproveedores.numeroProveedor)as tipoP from movimientosproveedores where fecha between '"+desde+"' and '"+hasta+"' order by numeroProveedor";
             System.out.println(sql);
         //fuente.setFontHeight((short)21);
         fuente.setFontName(fuente.FONT_ARIAL);
@@ -327,6 +339,12 @@ public class InformeProveedores {
             celda4=fila.createCell(4);
             celda4.setCellType(HSSFCell.CELL_TYPE_STRING);
             celda4.setCellValue(rs.getString("numeroComprobante"));
+             if(rs.getInt("tipoP")==1){
+                 celda=fila.createCell(5);
+                ttx=ttx;
+                celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+                celda.setCellValue("Gasto Fijo");
+            }
             }
             
         rs.close();

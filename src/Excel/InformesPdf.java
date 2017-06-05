@@ -76,11 +76,13 @@ public class InformesPdf {
             String totalVentas="TOTAL VENTAS: ";
             String totalGastos="TOTAL GASTOS: ";
             String totalProveedores="TOTAL PAGOS A PROVEEDORES: ";
+            String totalGastosFijos="TOTAL GASTOS FIJOS";
             
             Double ventas=0.00;
             Double gastos=0.00;
             Double provee=0.00;
             Double compras=0.00;
+            Double gastoFijo=0.00;
             String linea;
             while(rs.next()){
                 switch (rs.getInt("tipoMovimiento")){
@@ -95,6 +97,9 @@ public class InformesPdf {
                         break;
                     case 12:
                         gastos=gastos+rs.getDouble("total");
+                        break;
+                    case 16:
+                        gastoFijo=gastoFijo+rs.getDouble("total");
                         break;
                         
             }
@@ -173,6 +178,14 @@ public class InformesPdf {
                 cb.setTextMatrix(700,renglon);
                 cb.showText(Numeros.ConvertirNumero(gastos));
                 renglon=renglon - 10;
+                
+                cb.setTextMatrix(20,renglon);
+                cb.showText(totalGastosFijos);
+                
+                cb.setTextMatrix(700,renglon);
+                cb.showText(Numeros.ConvertirNumero(gastoFijo));
+                renglon=renglon - 10;
+                
                 cb.setTextMatrix(20,renglon);
                 cb.showText(totalProveedores);
                 
@@ -189,7 +202,7 @@ public class InformesPdf {
                 
             
             
-            Double gastosG=gastos + provee+compras;
+            Double gastosG=gastos + provee+compras+ gastoFijo;
             Double montoCIva=ventas + gastosG;
             
             bf = BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);

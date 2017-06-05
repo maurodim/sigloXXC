@@ -4,10 +4,11 @@
  */
 package interfaceGraficas;
 
+import GastosFijos.Pantallas.GastosFijos;
 import Actualizaciones.Actualiza;
 import Actualizaciones.Actualiza1;
 import Actualizaciones.BkDeConeccion;
-import Compras.Proveedores;
+import Proveedores.Objetos.Proveedores;
 import Depositos.Depositos;
 import Excel.InformeMensual;
 import Excel.LeerExcel;
@@ -48,7 +49,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import objetos.Articulos;
-import objetos.GastosF;
+import GastosFijos.Objetos.GastosF;
+import GastosFijos.Pantallas.Vencimientos;
+import Proveedores.Pantallas.ListadoProveedores;
+import java.util.ArrayList;
 
 /**
  *
@@ -131,7 +135,14 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         Image icon=new ImageIcon(getClass().getResource("/imagen/icono.png")).getImage();
         this.setIconImage(icon);
-        
+        GastosF per=new GastosF();
+        ArrayList listadoGtos=per.listarVencimientosDeHoy();
+        if(listadoGtos.size() > 0){
+            Vencimientos vence=new Vencimientos();
+            jDesktopPane1.add(vence);
+            vence.setVisible(true);
+            vence.toFront();
+        }
  
         //permisos(nivel);
     }
@@ -203,8 +214,11 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem20 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuItem29 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISITEMA DE GESTION BAMBU SOFTWARE");
@@ -461,7 +475,6 @@ public class Inicio extends javax.swing.JFrame {
         jMenuBar1.add(jMenu6);
 
         jMenu7.setText("Gastos Fijos");
-        jMenu7.setEnabled(false);
 
         jMenuItem22.setText("Administracion de Gastos Fijos");
         jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
@@ -470,6 +483,14 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         jMenu7.add(jMenuItem22);
+
+        jMenuItem28.setText("Vencimientos de Hoy");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem28);
 
         jMenuBar1.add(jMenu7);
 
@@ -486,6 +507,18 @@ public class Inicio extends javax.swing.JFrame {
         jMenu8.add(jMenuItem23);
 
         jMenuBar1.add(jMenu8);
+
+        jMenu9.setText("Proveedores");
+
+        jMenuItem29.setText("Listado de Proveedores");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem29);
+
+        jMenuBar1.add(jMenu9);
 
         setJMenuBar(jMenuBar1);
 
@@ -763,6 +796,20 @@ public class Inicio extends javax.swing.JFrame {
         abm.toFront();
     }//GEN-LAST:event_jMenuItem27ActionPerformed
 
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        Vencimientos vence=new Vencimientos();
+            jDesktopPane1.add(vence);
+            vence.setVisible(true);
+            vence.toFront();
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        ListadoProveedores vence=new ListadoProveedores();
+            jDesktopPane1.add(vence);
+            vence.setVisible(true);
+            vence.toFront();
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -830,6 +877,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -851,6 +899,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

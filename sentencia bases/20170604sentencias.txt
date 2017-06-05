@@ -1,0 +1,15 @@
+### proveedores  se agrega columna tipo
+alter table proveedores add column tipo int(11) not null default '0';
+
+### gastofijos nueva tabla
+create table gastofijos (id int(11) not null,idproveedor int(11) not null,fechavencimiento timestamp not null default current_timestamp,periodo int(11) not null default '1',habilitado int(11) not null default '1',pagado int(11) not null default '0',monto double not null default '0')engine=innodb default charset=utf8;
+alter table gastofijos add primary key (id);
+alter table gastifijos modify id int(11) not null auto_increment;
+
+### movimientosgastosfijos
+create table movimientosgastosfijos (id int(11) not null,idgasto int(11) not null,idproveedor int(11) not null,idcaja int(11) not null,idusuario int(11) not null,monto double not null default '0',fecha timestamp not null default current_timestamp,vencimiento date not null,pagado int(11) not null default '0')engine=innodb default charset=utf8;
+alter table movimientosgastosfijos add primary key (id);
+alter table movimientosgastosfijos modify id int(11) not null auto_increment;
+
+### tipomovimientos  agregar campo
+insert into tipomovimientos (id,descripcion,destinooperacion,multiploop) values (16,'Gasto Fijo',1,-1);

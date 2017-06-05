@@ -4,8 +4,9 @@
  */
 package interfaceGraficas;
 
-import Compras.FacturaProveedor;
-import Compras.Proveedores;
+import Proveedores.Pantallas.ProveedoresAbm;
+import Proveedores.Objetos.FacturaProveedor;
+import Proveedores.Objetos.Proveedores;
 import Compras.Remitos;
 import Conversores.Numeros;
 import Depositos.RemitosInternos;
@@ -700,8 +701,9 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         //Proveedores proveedor=new Proveedores();
 //listaProv=new ArrayList();
 Personalizable per=new Proveedores();
+Proveedores proveed=new Proveedores();
 DefaultComboBoxModel modelo=new DefaultComboBoxModel();
-listaProv=per.listar();
+listaProv=proveed.listarPorTipo(0);
 Iterator ilProv=listaProv.listIterator();
 while(ilProv.hasNext()){
     proveedor=(Proveedores)ilProv.next();
