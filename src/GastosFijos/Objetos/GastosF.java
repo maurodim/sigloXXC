@@ -137,7 +137,7 @@ public class GastosF implements Editables,Componable,Personalizable{
                 gastos.setId(id);
                 gastos.setMonto(rs.getDouble("monto"));
                 //gastos.setNumeroFactura(rs.getString("numeroFactura"));
-                gastos.setProveedor(rs.getInt("idProveedor"));
+                gastos.setProveedor(rs.getInt("idProveedore"));
                 gastos.setHabilitado(rs.getInt("habilitado"));
                 gastos.setPagado(rs.getInt("pagado"));
                 gastos.setPediodo(rs.getInt("periodo"));
@@ -186,7 +186,7 @@ public class GastosF implements Editables,Componable,Personalizable{
     }
     public ArrayList listarVencimientosDeHoy(){
         ArrayList listado=new ArrayList();
-        String sql="select *,(select proveedores.nombre from proveedores where proveedores.numero=gastofijos.idproveedor)as nombreP from gastoFijos where fechaVencimiento like '"+Inicio.fechaDia+"%' and pagado=0";
+        String sql="select *,(select proveedores.nombre from proveedores where proveedores.numero=gastofijos.idproveedore)as nombreP from gastoFijos where fechaVencimiento like '"+Inicio.fechaDia+"%' and pagado=0";
         Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         try {
@@ -195,7 +195,7 @@ public class GastosF implements Editables,Componable,Personalizable{
                 gasto=new GastosF();
                 gasto=new GastosF();
                 gasto.setId(rs.getInt("id"));
-                gasto.setProveedor(rs.getInt("idproveedor"));
+                gasto.setProveedor(rs.getInt("idproveedore"));
                 gasto.setNombreProveedor(rs.getString("nombreP"));
                 gasto.setFechaVencimiento(rs.getString("fechavencimiento"));
                 gasto.setPediodo(rs.getInt("periodo"));
@@ -216,7 +216,7 @@ public class GastosF implements Editables,Componable,Personalizable{
         Boolean verif=false;
         GastosF gastos=(GastosF)objeto;
         //String fecha=Numeros.ConvertirFecha(gastos.getFechaVencimiento());
-        String sql="insert into gastofijos (idProveedor,monto,fechaVencimiento,periodo) values ("+gastos.getProveedor()+","+gastos.getMonto()+",'"+gastos.getFechaVencimiento()+"','"+gastos.getPediodo()+"')";
+        String sql="insert into gastofijos (idProveedore,monto,fechaVencimiento,periodo) values ("+gastos.getProveedor()+","+gastos.getMonto()+",'"+gastos.getFechaVencimiento()+"','"+gastos.getPediodo()+"')";
         Transaccionable tra=new Conecciones();
         //verif=tra.guardarRegistro(sql);
         
@@ -390,7 +390,7 @@ public class GastosF implements Editables,Componable,Personalizable{
 
     @Override
     public ArrayList listar() {
-        String sql="select *,(select proveedores.nombre from proveedores where proveedores.numero=gastofijos.idproveedor)as nombreP from gastofijos order by fechavencimiento";
+        String sql="select *,(select proveedores.nombre from proveedores where proveedores.numero=gastofijos.idproveedore)as nombreP from gastofijos order by fechavencimiento";
         ArrayList listado=new ArrayList();
         Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
@@ -399,7 +399,7 @@ public class GastosF implements Editables,Componable,Personalizable{
             while(rs.next()){
                 gasto=new GastosF();
                 gasto.setId(rs.getInt("id"));
-                gasto.setProveedor(rs.getInt("idproveedor"));
+                gasto.setProveedor(rs.getInt("idproveedore"));
                 gasto.setNombreProveedor(rs.getString("nombreP"));
                 gasto.setFechaVencimiento(rs.getString("fechaVencimiento"));
                 gasto.setPediodo(rs.getInt("periodo"));
@@ -418,7 +418,7 @@ public class GastosF implements Editables,Componable,Personalizable{
 
     @Override
     public ArrayList listarPorNombre(String nombre) {
-        String sql="select *,(select proveedores.nombre from proveedores where proveedores.numero=gastofijos.idproveedor)as nombreP from gastofijos where pagado=0 order by fechavencimiento";
+        String sql="select *,(select proveedores.nombre from proveedores where proveedores.numero=gastofijos.idproveedore)as nombreP from gastofijos where pagado=0 order by fechavencimiento";
         ArrayList listado=new ArrayList();
         Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
@@ -427,7 +427,7 @@ public class GastosF implements Editables,Componable,Personalizable{
             while(rs.next()){
                 gasto=new GastosF();
                 gasto.setId(rs.getInt("id"));
-                gasto.setProveedor(rs.getInt("idproveedor"));
+                gasto.setProveedor(rs.getInt("idproveedore"));
                 gasto.setNombreProveedor(rs.getString("nombreP"));
                 gasto.setPediodo(rs.getInt("periodo"));
                 gasto.setHabilitado(rs.getInt("habilitado"));
