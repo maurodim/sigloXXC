@@ -95,9 +95,6 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Ingreso de Mercadería");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameActivated(evt);
-            }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
@@ -109,6 +106,9 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
             public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
             }
         });
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -124,22 +124,6 @@ public class IngresoDeMercaderia extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Seleccione Proveedor");
 
-        /*
-        Cobradores cob=new Cobradores();
-        Procesos pr=new Procesos();
-        ArrayList listaCob=new ArrayList();
-        //List comb=new List();
-        try{
-            listaCob=pr.listarCobradores();
-        }catch(Exception ex){
-            System.out.println("no se accedio al listado "+ex);
-        }
-        Iterator il=listaCob.listIterator();
-        while(il.hasNext()){
-            cob=(Cobradores)il.next();
-            jComboBox1.addItem(cob.getNombre());
-        }
-        */
         jComboBox1.setName("jProveedores");
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -764,7 +748,7 @@ public void recargarBox(){
     Proveedores proveedor=new Proveedores();
     ArrayList listaProv=new ArrayList();
     Personalizable per=new Proveedores();
-    listaProv=per.listar();
+    listaProv=proveedor.listarPorTipo(0);
     Iterator ilProv=listaProv.listIterator();
     while(ilProv.hasNext()){
         proveedor=(Proveedores)ilProv.next();

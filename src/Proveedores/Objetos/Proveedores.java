@@ -248,6 +248,8 @@ public class Proveedores implements Personalizable,Componable{
          ArrayList listado=new ArrayList();
         try {
             String sql="select *,(select sum(monto) from movimientosproveedores where movimientosproveedores.numeroproveedor=proveedores.numero)as saldoP from proveedores where tipo="+tip+" order by nombre";
+            
+            System.out.println(sql);
             Transaccionable tra=new Conecciones();
             ResultSet rr=tra.leerConjuntoDeRegistros(sql);
             while(rr.next()){
