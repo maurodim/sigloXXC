@@ -179,7 +179,8 @@ public class GastosF implements Editables,Componable,Personalizable{
         tra.guardarRegistro(sql);
         sql="update gastofijos set pagado=1 where id="+gasto.getId();
         tra.guardarRegistro(sql);
-        sql="insert into movimientosproveedores (numeroProveedor,monto,pagado,idRemito,idUsuario,idCaja,fechaPago,tipoComprobante,numeroComprobante) values ("+gasto.getProveedor()+","+gasto.getMonto()+",1,0,"+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"',13,"+gasto.getNumeroFactura()+")";
+        Double montt=gasto.getMonto() * -1;
+        sql="insert into movimientosproveedores (numeroProveedor,monto,pagado,idRemito,idUsuario,idCaja,fechaPago,tipoComprobante,numeroComprobante) values ("+gasto.getProveedor()+","+montt+",1,0,"+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"',13,"+gasto.getNumeroFactura()+")";
         tra.guardarRegistro(sql);
         verif=true;
         return verif;
