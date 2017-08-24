@@ -596,7 +596,7 @@ public class InformeProveedores {
             
         rs.close();
         //texto+="\r\n";
-        String ruta="D://Informes//"+Inicio.caja.getNumero()+"_informePorProveedor.xls";
+        String ruta="C://Informes//"+Inicio.caja.getNumero()+"_informePorProveedor.xls";
         try {
             FileOutputStream elFichero=new FileOutputStream(ruta);
             try {

@@ -46,6 +46,53 @@ public class Propiedades {
     static String VERIF;
     static String VALOR;
     static String ID;
+    static String CLAVECORREO;
+    static String CORREOSALIENTE;
+    static String PUERTO;
+    static String SEGURIDAD;
+    static String HOSTS;
+
+    public static String getHOSTS() {
+        return HOSTS;
+    }
+
+    public static void setHOSTS(String HOSTS) {
+        Propiedades.HOSTS = HOSTS;
+    }
+    
+
+    public static String getCLAVECORREO() {
+        return CLAVECORREO;
+    }
+
+    public static void setCLAVECORREO(String CLAVECORREO) {
+        Propiedades.CLAVECORREO = CLAVECORREO;
+    }
+
+    public static String getCORREOSALIENTE() {
+        return CORREOSALIENTE;
+    }
+
+    public static void setCORREOSALIENTE(String CORREOSALIENTE) {
+        Propiedades.CORREOSALIENTE = CORREOSALIENTE;
+    }
+
+    public static String getPUERTO() {
+        return PUERTO;
+    }
+
+    public static void setPUERTO(String PUERTO) {
+        Propiedades.PUERTO = PUERTO;
+    }
+
+    public static String getSEGURIDAD() {
+        return SEGURIDAD;
+    }
+
+    public static void setSEGURIDAD(String SEGURIDAD) {
+        Propiedades.SEGURIDAD = SEGURIDAD;
+    }
+    
 
     public static String getVERIF() {
         return VERIF;
@@ -174,12 +221,31 @@ public class Propiedades {
                         case 17:
                             CORREOCCC=linea.substring(8);
                             break;
+                        case 18:
+                            CLAVECORREO=linea.trim();
+                            break;
+                        case 19:
+                            CORREOSALIENTE=linea.trim();
+                            break;
+                        case 20:
+                            PUERTO=linea;
+                            break;
+                        case 21:
+                            if(linea.equals("1")){
+                                SEGURIDAD="false";
+                            }else{
+                                SEGURIDAD="true";
+                            }
+                            break;
+                        case 22:
+                            HOSTS=linea;
+                            break;
                         default:
                             break;
                             
                     }
                     
-                    System.out.println(renglon+" // "+SERVER+" // "+BD+" // "+USUARIO+" // "+CLAVE+" // "+CREADA+" // "+ARCHIVOBK+" // "+NOMBRECOMERCIO+" //CC "+CORREOCC+" //CCC "+CORREOCCC);
+                    System.out.println(renglon+" // "+SERVER+" // "+BD+" // "+USUARIO+" // "+CLAVE+" // "+CREADA+" // "+ARCHIVOBK+" // "+NOMBRECOMERCIO+" //CC "+CORREOCC+" //CCC "+CORREOCCC+"  linea "+linea);
                     // if(tra.guardarRegistro(linea));
       }
                 Date fecha=Numeros.ConvertirStringEnDate(VERIF);

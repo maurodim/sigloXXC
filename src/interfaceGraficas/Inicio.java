@@ -617,7 +617,7 @@ public class Inicio extends javax.swing.JFrame {
        jMenu4.setEnabled(Inicio.usuario.getMenu().getMenu4());
        jMenu5.setEnabled(Inicio.usuario.getMenu().getMenu5());
        jMenu6.setEnabled(Inicio.usuario.getMenu().getMenu6());
-       jMenu7.setEnabled(Inicio.usuario.getMenu().getMenu7());
+       //jMenu7.setEnabled(Inicio.usuario.getMenu().getMenu7());
               this.jMenuItem2.setEnabled(true);
        Cajeables caj=new Cajas();
        if(caj.VerificarCaja(usuario.getNumero(),sucursal.getNumero(),fechaDia)){
@@ -780,8 +780,8 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        //Backapear bb=new BackUp();
-        //System.out.println(bb.GenerarArchivos());
+       Backapear bb=new BackUp();
+       System.out.println(bb.GenerarArchivos());
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed

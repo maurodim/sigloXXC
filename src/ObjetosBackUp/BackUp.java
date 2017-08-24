@@ -719,7 +719,7 @@ public class BackUp implements Backapear{
     public String GenerarArchivos() {
              String archivoDestino="Configuracion/"+Propiedades.getBD()+".sql";
         try {
-            String sente="C:/xampp/mysql/bin/mysqldump -h localhost -u "+Propiedades.getUSUARIO()+" -p"+Propiedades.getCLAVE()+" "+Propiedades.getBD();
+            String sente="D:/archivos de programa/MYSQL/MySql Server 5.0/bin/mysqldump -h localhost -u "+Propiedades.getUSUARIO()+" -p"+Propiedades.getCLAVE()+" "+Propiedades.getBD();
             Process p=Runtime.getRuntime().exec(sente);
             InputStream is=p.getInputStream();
             FileOutputStream fos=new FileOutputStream(archivoDestino);

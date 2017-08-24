@@ -6,6 +6,7 @@ package Proveedores.Objetos;
 
 import Conversores.Numeros;
 import Conversores.Textos;
+import Proveedores.Interfaces.Proveedable;
 import interfaceGraficas.Inicio;
 import interfaces.Componable;
 import interfaces.Personalizable;
@@ -31,7 +32,7 @@ import objetos.Conecciones;
  *
  * @author mauro
  */
-public class Proveedores implements Personalizable,Componable{
+public class Proveedores implements Personalizable,Componable,Proveedable{
     private int numero;
     private String nombre;
     private String direccion;
@@ -581,6 +582,17 @@ public class Proveedores implements Personalizable,Componable{
     @Override
     public DefaultTableModel LlenarTablaConArrayEnMonedas(ArrayList listado, Object moneda) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Double AjusteDeSaldo(Object objeto,Double saldoA) {
+       
+        Proveedores fact=(Proveedores) objeto;
+        String sql="insert into movimientosproveedores (numeroProveedor,monto,numeroComprobante,idRemito,idUsuario,tipoComprobante,idSucursal,pagado) values ("+fact.getNumero()+","+saldoA+",'000',0,"+Inicio.usuario.getNumeroId()+",5,1,1)";
+        Transaccionable tra=new Conecciones();
+        tra.guardarRegistro(sql);
+        
+       return null;
     }
     
     

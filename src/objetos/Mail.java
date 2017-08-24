@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -28,6 +30,9 @@ import javax.mail.internet.MimeMultipart;
 public class Mail {
     private final Properties propiedades=new Properties();
     private String password="SUtter001";
+    private String correo=Propiedades.getCORREOSALIENTE().trim();
+    private String hosts=Propiedades.getHOSTS().trim();
+    private Integer puerto=Integer.parseInt(Propiedades.getPUERTO().trim());
     private Session sesion;
     private String direccionFile;
     private String detalleListado;
@@ -64,6 +69,9 @@ public class Mail {
         propiedades.put("mail.smtp.mail.sender","sistemas@bambusoft.com.ar");
         propiedades.put("mail.smtp.user","sistemas@bambusoft.com.ar");
         propiedades.put("mail.smtp.auth","true");
+        //System.out.println(Propiedades.getCORREOSALIENTE()+"/ clave/"+Propiedades.getCLAVECORREO());
+        //propiedades.put("mail.transport.protocol", "smtp");
+        //propiedades.put("mail.smtp.auth","true");
         sesion=Session.getDefaultInstance(propiedades);
         
     }
@@ -73,7 +81,7 @@ public class Mail {
             MimeMessage mensaje=new MimeMessage(sesion);
             mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
             mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getCORREOCIERREDECAJA()));
-            mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
+            //mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
             String cc=Propiedades.getCORREOCC();
             String ccc=Propiedades.getCORREOCCC();
             if(cc.equals("")){
@@ -141,7 +149,7 @@ public class Mail {
             MimeMessage mensaje=new MimeMessage(sesion);
             mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
             mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getCORREOCIERREDECAJA()));
-            mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
+            //mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
             String cc=Propiedades.getCORREOCC();
             String ccc=Propiedades.getCORREOCCC();
             if(cc.equals("")){

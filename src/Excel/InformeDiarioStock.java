@@ -401,7 +401,7 @@ public class InformeDiarioStock {
         
 
 //texto+="\r\n";
-        String ruta="D://Informes//"+Inicio.fechaDia+"_"+Inicio.usuario.getNombre()+" - informeDeStock.xls";
+        String ruta="C://Informes//"+Inicio.fechaDia+"_"+Inicio.usuario.getNombre()+" - informeDeStock.xls";
         String nombree=Inicio.fechaDia+"_"+Inicio.usuario.getNombre()+" - informeDeStock.xls";
         try {
             FileOutputStream elFichero=new FileOutputStream(ruta);
