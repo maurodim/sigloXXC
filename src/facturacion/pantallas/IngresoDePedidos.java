@@ -640,6 +640,8 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
             finally{
                 detalleDelPedido.clear();
         agregarRenglonTabla();
+        montoDebito=0.00;
+        cupon="";
         this.jCheckBox2.setSelected(true);
         this.jCheckBox2.setEnabled(false);
         this.jTable2.removeAll();

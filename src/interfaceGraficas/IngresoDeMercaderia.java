@@ -710,8 +710,8 @@ private void agregarRenglonTabla(){
         busC.addColumn("PRECIO COSTO");
         busC.addColumn("PRECIO VTA");
         busC.addColumn("PRECIO VTA ACT.");
-        busC.addColumn("STOCK ACT");
-        Object[] fila=new Object[7];
+        //busC.addColumn("STOCK ACT");
+        Object[] fila=new Object[6];
         Iterator irP=listadoArt.listIterator();
         Double cost=0.00;
         while(irP.hasNext()){
@@ -736,7 +736,7 @@ private void agregarRenglonTabla(){
             //System.err.println(" actual "+pedidos.getStockActual()+" agregar "+pedidos.getCantidad()+" total "+cantTotal);
             cost=pedidos.getPrecioUnitarioNeto();
             fila[5]=Numeros.ConvertirNumero(cost);
-            fila[6]=Numeros.ConvertirNumero(cantTotal);
+            //fila[6]=Numeros.ConvertirNumero(cantTotal);
             busC.addRow(fila);
         }
         String total=String.valueOf(montoTotal);
